@@ -135,13 +135,23 @@ resource "aws_iam_policy" "pipeline_policy" {
         Effect   = "Allow"
         Action   = [
           "cloudfront:CreateDistribution",
+          "cloudfront:CreateDistributionWithTags",
           "cloudfront:GetDistribution",
+          "cloudfront:GetDistributionConfig",
+          "cloudfront:ListDistributions",
           "cloudfront:UpdateDistribution",
           "cloudfront:DeleteDistribution",
           "cloudfront:CreateInvalidation",
+          "cloudfront:GetInvalidation",
           "cloudfront:CreateOriginAccessControl",
           "cloudfront:GetOriginAccessControl",
-          "cloudfront:TagResource"
+          "cloudfront:GetOriginAccessControlConfig",
+          "cloudfront:UpdateOriginAccessControl",
+          "cloudfront:DeleteOriginAccessControl",
+          "cloudfront:ListOriginAccessControls",
+          "cloudfront:TagResource",
+          "cloudfront:UntagResource",
+          "cloudfront:ListTagsForResource"
         ]
         Resource = ["*"]
       },
@@ -158,9 +168,32 @@ resource "aws_iam_policy" "pipeline_policy" {
           "iam:AttachRolePolicy",
           "iam:DetachRolePolicy",
           "iam:PassRole",
-          "iam:TagRole"
+          "iam:TagRole",
+          "iam:UntagRole",
+          "iam:ListRoleTags",
+          "iam:ListRolePolicies",
+          "iam:ListAttachedRolePolicies",
+          "iam:ListInstanceProfilesForRole",
+          "iam:UpdateAssumeRolePolicy"
         ]
         Resource = ["arn:aws:iam::*:role/${var.project_name}-*"]
+      },
+      # Gestión de Políticas IAM administradas del proyecto
+      {
+        Effect   = "Allow"
+        Action   = [
+          "iam:CreatePolicy",
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion",
+          "iam:ListPolicyVersions",
+          "iam:CreatePolicyVersion",
+          "iam:DeletePolicyVersion",
+          "iam:DeletePolicy",
+          "iam:TagPolicy",
+          "iam:UntagPolicy",
+          "iam:ListPolicyTags"
+        ]
+        Resource = ["arn:aws:iam::*:policy/${var.project_name}-*"]
       },
       # Amazon SES
       {
